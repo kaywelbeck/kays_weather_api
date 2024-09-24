@@ -1,0 +1,413 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Weather API
+  description: API for user registration, login, and weather data fetching.
+
+host: localhost:3000
+basePath: /
+
+schemes:
+  - http
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: |
+      For accessing the API, a valid JWT token must be provided in the Authorization header.
+      Example: "Authorization: Bearer {token}"
+
+security:
+  - Bearer: []
+
+paths:
+  /register:
+    post:
+      summary: User Registration
+      description: Registers a new user with email, password, and phone number.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: User object that needs to be added
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              username:
+                type: string
+              password:
+                type: string
+              phone:
+                type: string
+      responses:
+        200:
+          description: User registered successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /login:
+    post:
+      summary: User Login
+      description: Authenticates a user and returns a JWT token.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: credentials
+          description: User's email and password
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Successful authentication
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+
+  /weather:
+    post:
+      summary: Fetch Weather Data
+      description: Fetches current weather data for a specified location.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: location
+          description: Location for which to fetch weather data
+          required: true
+          schema:
+            type: object
+            properties:
+              location:
+                type: string
+      responses:
+        200:
+          description: Weather data fetched successfully
+          schema:
+            type: object
+            properties:
+              dt:
+                type: integer
+              id:
+                type: integer
+              cod:
+                type: integer
+              sys:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  type:
+                    type: integer
+                  sunset:
+                    type: integer
+                  country:
+                    type: string
+                  sunrise:
+                    type: integer
+              base:
+                type: string
+              main:
+                type: object
+                properties:
+                  temp:
+                    type: number
+                  humidity:
+                    type: integer
+                  pressure:
+                    type: integer
+                  temp_max:
+                    type: number
+                  temp_min:
+                    type: number
+                  feels_like:
+                    type: number
+              name:
+                type: string
+              wind:
+                type: object
+                properties:
+                  deg:
+                    type: integer
+                  speed:
+                    type: number
+              coord:
+                type: object
+                properties:
+                  lat:
+                    type: number
+                  lon:
+                    type: number
+              clouds:
+                type: object
+                properties:
+                  all:
+                    type: integer
+              weather:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    icon:
+                      type: string
+                    main:
+                      type: string
+                    description:
+                      type: string
+              timezone:
+                type: integer
+              visibility:
+                type: integer
+
+  /forecast:
+    post:
+      summary: Fetch Forecast Data
+      description: Fetches weather forecast data for a specified location.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: location
+          description: Location for which to fetch forecast data
+          required: true
+          schema:
+            type: object
+            properties:
+              location:
+                type: string
+      responses:
+        200:
+          description: Forecast data fetched successfully
+          schema:
+            type: object
+            properties:
+              cnt:
+                type: integer
+              cod:
+                type: string
+              city:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  coord:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                      lon:
+                        type: number
+                  sunset:
+                    type: integer
+                  country:
+                    type: string
+                  sunrise:
+                    type: integer
+                  timezone:
+                    type: integer
+                  population:
+                    type: integer
+              list:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    dt:
+                      type: integer
+                    pop:
+                      type: number
+                    sys:
+                      type: object
+                      properties:
+                        pod:
+                          type: string
+                    main:
+                      type: object
+                      properties:
+                        temp:
+                          type: number
+                        temp_kf:
+                          type: number
+                        humidity:
+                          type: integer
+                        pressure:
+                          type: integer
+                        temp_max:
+                          type: number
+                        temp_min:
+                          type: number
+                        sea_level:
+                          type: integer
+                        feels_like:
+                          type: number
+                        grnd_level:
+                          type: integer
+                    rain:
+                      type: object
+                      properties:
+                        3h:
+                          type: number
+                    wind:
+                      type: object
+                      properties:
+                        deg:
+                          type: integer
+                        gust:
+                          type: number
+                        speed:
+                          type: number
+                    clouds:
+                      type: object
+                      properties:
+                        all:
+                          type: integer
+                    dt_txt:
+                      type: string
+                    weather:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          icon:
+                            type: string
+                          main:
+                            type: string
+                          description:
+                            type: string
+                    visibility:
+                      type: integer
+
+  /favorites:
+    get:
+      summary: Get User's Favorite Cities
+      description: Retrieves the authenticated user's favorite cities.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT token
+          required: true
+          type: string
+          default: Bearer {token}
+      responses:
+        200:
+          description: List of favorite cities
+          schema:
+            type: object
+            properties:
+              favorites:
+                type: array
+                items:
+                  type: string
+    post:
+      summary: Add a City to Favorites
+      description: Adds a city to the authenticated user's favorite cities.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT token
+          required: true
+          type: string
+          default: Bearer {token}
+        - in: body
+          name: city
+          description: City to be added to favorites
+          required: true
+          schema:
+            type: object
+            properties:
+              city:
+                type: string
+      responses:
+        200:
+          description: City added to favorites
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /change-password:
+    post:
+      summary: Change User Password
+      description: Changes the password for a user.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer JWT token
+          required: true
+          type: string
+          default: Bearer {token}
+        - in: body
+          name: passwordChangeRequest
+          description: Request payload for changing the password
+          required: true
+          schema:
+            type: object
+            properties:
+              oldPassword:
+                type: string
+                description: Old password
+              newPassword:
+                type: string
+                description: New password
+              confirmnewPassword:
+                type: string
+                description: Confirm new password
+      responses:
+        200:
+          description: Password changed successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Password changed successfully"
+        400:
+          description: Invalid old password
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Invalid old password"
