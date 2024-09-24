@@ -1,0 +1,24 @@
+{
+  "cities": [
+    { "name": "London" },
+    { "name": "Birmingham" },
+    { "name": "Glasgow" },
+    { "name": "Liverpool" },
+    { "name": "Bristol" },
+    { "name": "Manchester" },
+    { "name": "Sheffield" },
+    { "name": "Leeds" },
+    { "name": "Edinburgh" },
+    { "name": "Leicester" },
+    { "name": "Coventry" },
+    { "name": "Bradford" },
+    { "name": "Cardiff" },
+    { "name": "Belfast" },
+    { "name": "Stoke-on-Trent" },
+    { "name": "Wolverhampton" },
+    { "name": "Nottingham" },
+    { "name": "Plymouth" },
+    { "name": "Southampton" },
+    { "name": "Reading" }
+  ]
+}
